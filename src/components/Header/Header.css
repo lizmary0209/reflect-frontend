@@ -1,9 +1,37 @@
 .header {
     padding: 16px;
     border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .header__logo {
     font-size: 24px;
     margin: 0;
+}
+
+.header__actions {
+    display: flex;
+    gap: 10px;
+}
+
+.header__button {
+    padding: 10px 12px;
+    border: 1px solid #222;
+    background: #fff;
+    color: #222;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.header__button_primary {
+    background: #222;
+    color: #fff;
+}
+
+.header__button:focus {
+    outline: 2px solid #000;
+    outline-offset: 2px;
 }

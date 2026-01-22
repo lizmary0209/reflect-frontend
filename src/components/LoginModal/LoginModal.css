@@ -1,0 +1,26 @@
+.auth__label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.auth__input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.auth__input:focus {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.auth__button {
+    padding: 10px 12px;
+    border: 1px solid #222;
+    background: #222;
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+}
