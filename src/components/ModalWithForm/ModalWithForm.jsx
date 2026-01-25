@@ -1,6 +1,6 @@
 import "./ModalWithForm.css";
 
-function ModalWithForm({ isOpen, title, children, onClose }) {
+function ModalWithForm({ isOpen, title, children, onClose, onSubmit }) {
     if (!isOpen) return null;
 
     const handleOverlayClick = (evt) => {
@@ -23,7 +23,7 @@ function ModalWithForm({ isOpen, title, children, onClose }) {
 
                 <h2 className="modal__title">{title}</h2>
 
-                <form className="modal__form" noValidate>
+                <form className="modal__form" noValidate onSubmit={onSubmit}>
                     {children}
                 </form>
             </div>

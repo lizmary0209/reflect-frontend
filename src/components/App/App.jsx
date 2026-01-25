@@ -10,15 +10,45 @@ import Footer from "../Footer/Footer";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 
+import { getEntries } from "../../utils/api";
 
 import "./App.css";
 
 function App() {
     const [activeModal, setActiveModal] = useState("");
+    const [entries, setEntries] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoadingEntries, setIsLoadingEntries] = useState(false);
 
     const openLogin = () => setActiveModal("login");
     const openRegister = () => setActiveModal("register");
     const closeModal = () => setActiveModal("");
+
+    const fetchEntries = () => {
+        setIsLoadingEntries(true);
+        return getEntries()
+        .then((data) => {
+            setEntries(data);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+        .finally(() => {
+            setIsLoadingEntries(false);
+        });
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem("jwt");
+
+        if (!token) {
+            setIsLoggedIn(false);
+            return;
+        }
+
+        setIsLoggedIn(true);
+        fetchEntries();
+    }, []);
 
     useEffect(() => {
         if (!activeModal) return;
@@ -36,6 +66,18 @@ function App() {
         };
     }, [activeModal]);
 
+    const handleLoginSuccess = () => {
+        const token = localStorage.getItem("jwt");
+        if (!token) return;
+
+        setIsLoggedIn(true);
+        fetchEntries();
+    };
+
+    const handleLoginClose = () => {
+        closeModal();
+    };
+
 
     return (
         <div className="app">
@@ -43,13 +85,19 @@ function App() {
             <Navigation />
 
             <Routes>
-                <Route path="/" element={<Main />} />
+                <Route path="/"
+                 element={<Main entries={entries} isLoading={isLoadingEntries} isLoggedIn={isLoggedIn} />} 
+                 />
                 <Route path="/profile" element={<Profile />} />
             </Routes>
 
             <Footer />
 
-            <LoginModal isOpen={activeModal === "login"} onClose={closeModal} />
+            <LoginModal 
+            isOpen={activeModal === "login"}
+             onClose={handleLoginClose}
+             onLoginSuccess={handleLoginSuccess}
+              />
             <RegisterModal isOpen={activeModal === "register"} onClose={closeModal} />
         </div>
     );
