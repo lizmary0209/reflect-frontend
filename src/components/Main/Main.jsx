@@ -5,7 +5,7 @@ import { SAMPLE_QUOTE } from "../../utils/constants";
 import "./Main.css";
 
 
-function Main({ entries, isLoading, isLoggedIn }) {
+function Main({ entries, isLoading, isLoggedIn, onOpenNewEntry }) {
 const [isLoadingQuote, setIsLoadingQuote] = useState(false);
 
 
@@ -25,19 +25,23 @@ const [isLoadingQuote, setIsLoadingQuote] = useState(false);
             <section className="journal" aria-label="Journal">
                 <div className="journal__header">
                     <h3 className="journal__title">Your journal</h3>
-                    <button className="journal__button" type="button" disabled={!isLoggedIn}>
+                    <button 
+                    className="journal__button"
+                     type="button"
+                     onClick={onOpenNewEntry}
+                     disabled={!isLoggedIn}>
                         New Entry
                     </button>
                 </div>
 
-{!isLoggedIn ? (
+            {!isLoggedIn ? (
                 <ul className="journal__list">
                     <li className="journal__empty">
                         Please sign in to view your journal.</li>
                 </ul>
-) : isLoading ? (
+        ) : isLoading ? (
     <Preloader text="Loading entries..." />
-) : entries && entries.length > 0 ? (
+        ) : entries && entries.length > 0 ? (
     <ul className="journal__list">
         {entries.map((entry) => (
             <li key={entry._id} className="journal__item">
@@ -47,7 +51,7 @@ const [isLoadingQuote, setIsLoadingQuote] = useState(false);
             </li>
         ))}
     </ul>
-) : (
+        ) : (
     <ul className="journal__list">
         <li className="journal__empty">
             No entries yet. Click <strong>New entry</strong> to start.

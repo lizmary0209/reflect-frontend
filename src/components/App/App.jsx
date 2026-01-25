@@ -9,8 +9,9 @@ import Profile from "../Profile/Profile";
 import Footer from "../Footer/Footer";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import NewEntryModal from "../NewEntryModal/NewEntryModal";
 
-import { getEntries } from "../../utils/api";
+import { getEntries, createEntry } from "../../utils/api";
 
 import "./App.css";
 
@@ -19,9 +20,11 @@ function App() {
     const [entries, setEntries] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoadingEntries, setIsLoadingEntries] = useState(false);
+    const [isCreatingEntry, setIsCreatingEntry] = useState(false);
 
     const openLogin = () => setActiveModal("login");
     const openRegister = () => setActiveModal("register");
+    const openNewEntry = () => setActiveModal("new-entry");
     const closeModal = () => setActiveModal("");
 
     const fetchEntries = () => {
@@ -74,8 +77,20 @@ function App() {
         fetchEntries();
     };
 
-    const handleLoginClose = () => {
-        closeModal();
+    const handleCreateEntry = (entryData) => {
+        setIsCreatingEntry(true);
+
+        createEntry(entryData)
+        .then((newEntry) => {
+            setEntries((prev) => [newEntry, ...prev]);
+            closeModal();
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+        .finally(() => {
+            setIsCreatingEntry(false);
+        });
     };
 
 
@@ -86,7 +101,14 @@ function App() {
 
             <Routes>
                 <Route path="/"
-                 element={<Main entries={entries} isLoading={isLoadingEntries} isLoggedIn={isLoggedIn} />} 
+                 element={
+                 <Main
+                  entries={entries}
+                   isLoading={isLoadingEntries}
+                    isLoggedIn={isLoggedIn}
+                    onOpenNewEntry={openNewEntry}
+                    />
+                } 
                  />
                 <Route path="/profile" element={<Profile />} />
             </Routes>
@@ -95,10 +117,16 @@ function App() {
 
             <LoginModal 
             isOpen={activeModal === "login"}
-             onClose={handleLoginClose}
+             onClose={closeModal}
              onLoginSuccess={handleLoginSuccess}
               />
             <RegisterModal isOpen={activeModal === "register"} onClose={closeModal} />
+            <NewEntryModal
+            isOpen={activeModal === "new-entry"}
+            onClose={closeModal}
+            onCreateEntry={handleCreateEntry}
+            isLoading={isCreatingEntry}
+            />
         </div>
     );
 }
