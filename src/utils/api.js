@@ -28,3 +28,7 @@ export const createEntry = (data) => {
         body: JSON.stringify(data),
     }).then(checkResponse);
 };
+
+export const getTodayQuote = () => {
+    return fetch(`${BASE_URL}/quote/today`).then(checkResponse);
+};
