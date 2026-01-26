@@ -29,6 +29,21 @@ export const createEntry = (data) => {
     }).then(checkResponse);
 };
 
+export const deleteEntry = (id) => {
+    return fetch(`${BASE_URL}/entries/${id}`, {
+        method: "DELETE",
+        headers: getHeaders(),
+    }). then(checkResponse);
+};
+
+export const updateEntry = (id, data) => {
+    return fetch(`${BASE_URL}/entries/${id}`, {
+        method: "PATCH",
+        headers: getHeaders(),
+        body: JSON.stringify(data),
+    }).then(checkResponse);
+};
+
 export const getTodayQuote = () => {
     return fetch(`${BASE_URL}/quote/today`).then(checkResponse);
 };
