@@ -4,38 +4,36 @@ import Preloader from "../Preloader/Preloader";
 import { getTodayQuote } from "../../utils/api";
 import "./Main.css";
 
+function Main({ entries, isLoading, isLoggedIn, onOpenNewEntry, onDeleteEntry, onEditEntry }) {
+  const [isLoadingQuote, setIsLoadingQuote] = useState(true);
+  const [quote, setQuote] = useState(null);
+  const [quoteError, setQuoteError] = useState(false);
 
-function Main({ entries, isLoading, isLoggedIn, onOpenNewEntry }) {
-const [isLoadingQuote, setIsLoadingQuote] = useState(false);
-const [quote, setQuote] = useState(null);
-const [quoteError, setQuoteError] = useState(false);
-
-useEffect(() => {
+  useEffect(() => {
     setIsLoadingQuote(true);
     setQuoteError(false);
 
     getTodayQuote()
-    .then((data) => {
+      .then((data) => {
         setQuote(data);
-    })
-    .catch(() => {
+      })
+      .catch(() => {
         setQuoteError(true);
         setQuote(null);
-    })
-    .finally(() => {
+      })
+      .finally(() => {
         setIsLoadingQuote(false);
-    });
-}, []);
+      });
+  }, []);
 
+  return (
+    <main className="main">
+      <header className="main__header">
+        <h1 className="main__title">Today</h1>
+        <p className="main__subtitle">A quiet space to reflect and write.</p>
+      </header>
 
-    return (
-        <main className="main">
-            <header className="main__header">
-            <h1 className="main__title">Today</h1>
-            <p className="main__subtitle">A quiet space to reflect and write.</p>
-            </header>
-
-            {isLoadingQuote ? (
+      {isLoadingQuote ? (
         <Preloader text="Loading quote..." />
       ) : quoteError ? (
         <div className="quote-fallback">Quote unavailable right now. Please try again later.</div>
@@ -63,7 +61,19 @@ useEffect(() => {
           <ul className="journal__list">
             {entries.map((entry) => (
               <li key={entry._id} className="journal__item">
-                <h4 className="journal__item-title">{entry.title}</h4>
+                <div className="journal__item-header">
+                  <h4 className="journal__item-title">{entry.title}</h4>
+
+                  <div className="journal__item-actions">
+                    <button className="journal__edit" type="button" onClick={() => onEditEntry(entry)}>
+                      Edit
+                    </button>
+                    <button className="journal__delete" type="button" onClick={() => onDeleteEntry(entry._id)}>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
                 <p className="journal__item-body">{entry.body}</p>
                 {entry.mood ? <p className="journal__item-mood">{entry.mood}</p> : null}
               </li>

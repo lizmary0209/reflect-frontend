@@ -1,28 +1,30 @@
 .main {
-    padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
+   padding: 28px 0;
 }
 
 .main__header {
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .main__title {
     margin: 0 0 6px;
-    font-size: 28px;
+    font-size: 34px;
+    letter-spacing: 0.2px;
 }
 
 .main__subtitle {
-    margin: 0 0 16px;
-    color: #444;
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 16px;
 }
 
 .journal {
-    margin-top: 24px;
-    padding: 16px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    margin-top: 22px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: var(--shadow);
 }
 
 .journal__header {
@@ -36,20 +38,29 @@
 .journal__title {
     margin: 0;
     font-size: 18px;
+    font-weight: 800;
 }
 
 .journal__button {
-    padding: 10px 12px;
-    border: 1px solid #222;
-    background: #222;
+    padding: 10px 14px;
+    border: 1px solid rgba(63, 107, 79, 0.55);
+    background: linear-gradient(180deg, rgba(63, 107, 79, 1) 0%, rgba(56, 93, 69, 1) 100%);
     color: #fff;
-    border-radius: 10px;
+    border-radius: 14px;
     cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.journal__button:hover {
+    filter: brightness(1.03);
+    transform: translateY(-1px);
 }
 
 .journal__button:focus {
-    outline: 2px solid #000;
-    outline-offset: 2px;
+    outline: 3px solid rgba(138, 106, 62, 0.35);
+    outline-offset: 3px;
 }
 
 .journal__list {
@@ -59,7 +70,8 @@
 }
 
 .journal__empty {
-    color: #777;
+    color: var(--muted);
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
 }
+
