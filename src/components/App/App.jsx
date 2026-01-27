@@ -12,10 +12,15 @@ import NewEntryModal from "../NewEntryModal/NewEntryModal";
 import EditEntryModal from "../EditEntryModal/EditEntryModal";
 
 import {
+  register,
+  login,
+  getCurrentUser,
   getEntries,
   createEntry,
   deleteEntry,
   updateEntry,
+  setToken,
+  clearToken,
 } from "../../utils/api";
 
 import "./App.css";
@@ -24,6 +29,7 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [entries, setEntries] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoadingEntries, setIsLoadingEntries] = useState(false);
   const [isCreatingEntry, setIsCreatingEntry] = useState(false);
   const [isUpdatingEntry, setIsUpdatingEntry] = useState(false);
@@ -55,14 +61,20 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
+if (!token) return;
 
-    if (!token) {
+
       setIsLoggedIn(false);
-      return;
-    }
-
-    setIsLoggedIn(true);
-    fetchEntries();
+  
+    Promise.all([getCurrentUser(), fetchEntries()])
+    .then(([user]) => {
+      setCurrentUser(user);
+    })
+    .catch(() => {
+      clearToken();
+      setIsLoggedIn(false);
+      setCurrentUser(null);
+    });
   }, []);
 
   useEffect(() => {
@@ -81,13 +93,27 @@ function App() {
     };
   }, [activeModal]);
 
-  const handleLoginSuccess = () => {
-    const token = localStorage.getItem("jwt");
-    if (!token) return;
-
-    setIsLoggedIn(true);
-    fetchEntries();
+  const handleRegister = ({ name, email, password }) => {
+    register({ name, email, password })
+    .then(() => {
+      closeModal();
+      openLogin();
+    });
   };
+
+  const handleLogin = ({ email, password }) => {
+    login({ email, password })
+    .then(({ token}) => {
+      setToken(token);
+      setIsLoggedIn(true);
+      closeModal();
+      return Promise.all([getCurrentUser(), fetchEntries()]);
+    })
+    .then(([user]) => {
+      setCurrentUser(user);
+    });
+  };
+
 
   const handleCreateEntry = (entryData) => {
     setIsCreatingEntry(true);
@@ -96,9 +122,6 @@ function App() {
       .then((newEntry) => {
         setEntries((prev) => [newEntry, ...prev]);
         closeModal();
-      })
-      .catch((err) => {
-        console.error(err);
       })
       .finally(() => {
         setIsCreatingEntry(false);
@@ -111,9 +134,6 @@ function App() {
         setEntries((prev) =>
           prev.filter((entry) => entry._id !== id)
         );
-      })
-      .catch((err) => {
-        console.error(err);
       });
   };
 
@@ -134,17 +154,15 @@ function App() {
         );
         closeModal();
       })
-      .catch((err) => {
-        console.error(err);
-      })
       .finally(() => {
         setIsUpdatingEntry(false);
       });
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("jwt");
+    clearToken();
     setIsLoggedIn(false);
+    setCurrentUser(null);
     setEntries([]);
     setActiveModal("");
     setSelectedEntry(null);
@@ -177,8 +195,17 @@ function App() {
                 />
               }
             />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
+            <Route
+             path="/profile"
+              element={
+                <Profile
+                currentUser={currentUser}
+                isLoggedIn={isLoggedIn}
+                onLogout={handleLogout}
+                />
+              }
+              />
+               </Routes>
         </div>
       </div>
 
@@ -187,12 +214,13 @@ function App() {
       <LoginModal
         isOpen={activeModal === "login"}
         onClose={closeModal}
-        onLoginSuccess={handleLoginSuccess}
+        onLogin={handleLogin}
       />
 
       <RegisterModal
         isOpen={activeModal === "register"}
         onClose={closeModal}
+        onRegister={handleRegister}
       />
 
       <NewEntryModal

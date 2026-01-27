@@ -77,14 +77,14 @@ return (
         </label>
 
         <label className="auth__label">
-            Tags (comma separated)
+            Tags (Comma Separated)
             <input
             className="auth__input"
             type="text"
             name="tags"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
-            placeholder="faith, gratitude, progress"
+            placeholder="Faith, Gratitude, Progress"
             />
      </label>
 

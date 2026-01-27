@@ -1,42 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./LoginModal.css";
 
-function LoginModal({ isOpen, onClose, onLoginSuccess }) {
+function LoginModal({ isOpen, onClose, onLogin }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    useEffect(() => {
+        if (isOpen) {
+            setEmail("");
+            setPassword("");
+        }
+    }, [isOpen]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        fetch("http://127.0.0.1:3001/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-        })
-        .then((res) => {
-            if (!res.ok) {
-                return Promise.reject(`Error: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then((data) => {
-            localStorage.setItem("jwt", data.token);
-           if (onLoginSuccess) {
-            onLoginSuccess(data.token);
-           }
-           onClose();
-        })
-        .catch((err) => {
-            console.error(err);
-        });
+        onLogin({ email, password });
     };
 
 
     return (
-        <ModalWithForm isOpen={isOpen} title="Sign in" onClose={onClose} onSubmit={handleSubmit}>
+        <ModalWithForm
+         isOpen={isOpen}
+          title="Sign in"
+           onClose={onClose}
+            onSubmit={handleSubmit}
+            >
             <label className="auth__label">
                 Email
                 <input
@@ -48,6 +37,9 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
                      placeholder="you@example.com"
                      required
                       />
+                      <p className="modal__error">
+                        Please enter a valid email address.
+                      </p>
             </label>
 
             <label className="auth__label">
@@ -61,9 +53,12 @@ function LoginModal({ isOpen, onClose, onLoginSuccess }) {
                    placeholder="Password"
                    required
                     />
+                    <p className="modal__error">
+                        Password must be at least 8 characters.
+                    </p>
             </label>
 
-            <button className="auth_button" type="submit">
+            <button className="auth__button" type="submit">
                 Sign in
             </button>
         </ModalWithForm>
