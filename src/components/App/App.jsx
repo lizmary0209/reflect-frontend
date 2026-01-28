@@ -51,9 +51,6 @@ function App() {
       .then((data) => {
         setEntries(data);
       })
-      .catch((err) => {
-        console.error(err);
-      })
       .finally(() => {
         setIsLoadingEntries(false);
       });
@@ -64,16 +61,23 @@ function App() {
 if (!token) return;
 
 
-      setIsLoggedIn(false);
+      setIsLoggedIn(true);
   
     Promise.all([getCurrentUser(), fetchEntries()])
     .then(([user]) => {
       setCurrentUser(user);
     })
-    .catch(() => {
-      clearToken();
-      setIsLoggedIn(false);
-      setCurrentUser(null);
+    .catch((err) => {
+      const message = String(err || "");
+      const isAuthError =
+      message.includes("401") || message.toLowerCase().includes("authorization");
+
+      if (isAuthError) {
+        clearToken();
+        setIsLoggedIn(false);
+        setCurrentUser(null);
+        setEntries([]);
+      }
     });
   }, []);
 
@@ -129,12 +133,15 @@ if (!token) return;
   };
 
   const handleDeleteEntry = (id) => {
-    deleteEntry(id)
-      .then(() => {
-        setEntries((prev) =>
-          prev.filter((entry) => entry._id !== id)
-        );
-      });
+const confirmed = window.confirm(
+  "Are you sure you want to delete this entry? This action cannot be undone."
+);
+
+if (!confirmed) return;
+
+deleteEntry(id).then(() => {
+  setEntries((prev) => prev.filter((entry) => entry._id !== id));
+});
   };
 
   const handleEditEntry = (entry) => {
@@ -198,12 +205,7 @@ if (!token) return;
             <Route
              path="/profile"
               element={
-                <Profile
-                currentUser={currentUser}
-                isLoggedIn={isLoggedIn}
-                onLogout={handleLogout}
-                />
-              }
+                <Profile currentUser={currentUser} isLoggedIn={isLoggedIn} />}
               />
                </Routes>
         </div>

@@ -33,7 +33,12 @@ const handleSubmit = (e) => {
 };
 
 return (
-    <ModalWithForm isOpen={isOpen} title="New Entry" onClose={onClose} onSubmit={handleSubmit}>
+    <ModalWithForm
+     isOpen={isOpen}
+      title="New Entry"
+       onClose={onClose}
+        onSubmit={handleSubmit}
+        >
         <label className="auth__label">
             Title
             <input
@@ -43,36 +48,44 @@ return (
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Give your entry a title"
-            minlength="1"
-            maxlength="100"
+            minLength="1"
+            maxLength="100"
             required
             />
+            <p className="modal__error">Title is required.</p>
         </label>
 
         <label className="auth__label">
             Entry
             <textarea
-            className="auth__input"
+            className="entry__textarea"
             name="body"
             value={body}
             onChange={(e) => setBody(e.target.value)}
             placeholder="Write what's on your heart..."
-            minlength="1"
-            maxlength="5000"
+            minLength="1"
+            maxLength="5000"
             required
             />
+            <p className="modal__error">Entry is required.</p>
         </label>
 
         <label className="auth__label">
             Mood
-            <select className="auth__input" name="mood" value={mood} onChange={(e) => setMood(e.target.value)}>
-            <option value="calm">calm</option>
-            <option value="grateful">grateful</option>
-            <option value="anxious">anxious</option>
-            <option value="joyful">joyful</option>
-            <option value="sad">sad</option>
-            <option value="angry">angry</option>
-            <option value="neutral">neutral</option>
+            <select
+             className="auth__input"
+              name="mood"
+               value={mood}
+                onChange={(e) => setMood(e.target.value)}
+                required
+                >
+            <option value="calm">Calm</option>
+            <option value="grateful">Grateful</option>
+            <option value="anxious">Anxious</option>
+            <option value="joyful">Joyful</option>
+            <option value="sad">Sad</option>
+            <option value="angry">Angry</option>
+            <option value="neutral">Neutral</option>
 </select>
         </label>
 
@@ -88,9 +101,11 @@ return (
             />
      </label>
 
+<div className="auth__actions">
      <button className="auth__button" type="submit" disabled={isLoading}>
         {isLoading ? "Saving..." : "Save Entry"}
      </button>
+     </div>
     </ModalWithForm>
 );
 }
