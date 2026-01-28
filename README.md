@@ -1,16 +1,70 @@
-# React + Vite
+# Reflect — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reflect is a calm, journaling web application designed to help users write, reflect, and track their thoughts in a peaceful, distraction-free environment.
 
-Currently, two official plugins are available:
+This repository contains the **frontend** of the Reflect application, built with React.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- User authentication (sign up / sign in)
+- Daily inspirational quote display
+- Create, edit, and delete journal entries
+- Mood tracking and tag support
+- Responsive design for mobile and desktop
+- Modal-based forms with validation and error handling
+- Persistent login using JWT
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- React
+- JavaScript (ES6+)
+- CSS (custom styling, responsive layout)
+- React Router
+- Fetch API
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js
+- npm or yarn
+
+### Installation
+
+```bash
+git clone <frontend-repo-url>
+cd reflect-frontend
+npm install
+npm run dev
+
+-The app will run locally at
+http://localhost:5173
+
+🔐 Authentication Flow
+
+JWT is stored in localStorage
+
+Token is automatically attached to API requests
+
+User remains logged in after page refresh
+
+🌐 API Integration
+
+The frontend communicates with the backend via REST API calls for:
+
+Authentication
+
+Journal entry CRUD operations
+
+Daily quote retrieval
+
+👩‍💻 Author
+
+Lizmary Chardon
+Software Engineering Student — TripleTen
+
