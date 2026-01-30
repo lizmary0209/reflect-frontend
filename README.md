@@ -2,12 +2,11 @@
 
 Reflect is a calm, journaling web application designed to help users write, reflect, and track their thoughts in a peaceful, distraction-free environment.
 
-This repository contains the **frontend** of the Reflect application, built with React.
+This repository contains the frontend of the Reflect application, built with React.
 
 ---
 
-## ✨ Features
-
+## Features
 - User authentication (sign up / sign in)
 - Daily inspirational quote display
 - Create, edit, and delete journal entries
@@ -18,8 +17,7 @@ This repository contains the **frontend** of the Reflect application, built with
 
 ---
 
-## 🛠️ Tech Stack
-
+## Tech Stack
 - React
 - JavaScript (ES6+)
 - CSS (custom styling, responsive layout)
@@ -28,43 +26,44 @@ This repository contains the **frontend** of the Reflect application, built with
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Node.js
-- npm or yarn
+Node.js
+npm or yarn
 
 ### Installation
 
-```bash
-git clone <frontend-repo-url>
+git clone <https://github.com/lizmary0209/reflect-frontend.git>
 cd reflect-frontend
 npm install
 npm run dev
 
--The app will run locally at
+The app will run locally at
 http://localhost:5173
 
-🔐 Authentication Flow
+---
 
-JWT is stored in localStorage
+### Authentication Flow
+-JWT is stored in localStorage
+-Token is automatically attached to API requests
+-User remains logged in after page refresh
 
-Token is automatically attached to API requests
+---
 
-User remains logged in after page refresh
-
-🌐 API Integration
-
+### API Integration
 The frontend communicates with the backend via REST API calls for:
+-Authentication
+-Journal entry CRUD operations
+-Daily quote retrieval
 
-Authentication
+---
 
-Journal entry CRUD operations
+### Frontend Demo Video
+https://drive.google.com/file/d/1JlC-p9ySAa8aapVgu3yQoe7SNLADsIqL/view?usp=drive_link
 
-Daily quote retrieval
+---
 
-👩‍💻 Author
-
+### Author
 Lizmary Chardon
 Software Engineering Student — TripleTen
-
