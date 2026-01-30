@@ -64,7 +64,8 @@ https://drive.google.com/file/d/1JlC-p9ySAa8aapVgu3yQoe7SNLADsIqL/view?usp=drive
 
 ---
 
-Submission PR created for TripleTen review
+## Deployed Frontend
+https://tiny-donut-a6b715.netlify.app/
 
 ---
 
