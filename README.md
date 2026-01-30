@@ -64,6 +64,10 @@ https://drive.google.com/file/d/1JlC-p9ySAa8aapVgu3yQoe7SNLADsIqL/view?usp=drive
 
 ---
 
+Submission PR created for TripleTen review
+
+---
+
 ### Author
 Lizmary Chardon
 Software Engineering Student — TripleTen
