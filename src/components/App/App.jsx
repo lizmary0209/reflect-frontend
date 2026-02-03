@@ -25,6 +25,8 @@ import {
 
 import "./App.css";
 
+const DEMO_TOKEN = "demo-token";
+
 function App() {
   const [activeModal, setActiveModal] = useState("");
   const [entries, setEntries] = useState([]);
@@ -60,12 +62,28 @@ function App() {
     const token = localStorage.getItem("jwt");
 if (!token) return;
 
-
-      setIsLoggedIn(true);
+if (token === DEMO_TOKEN) {
+  setIsLoggedIn(true);
+  setCurrentUser({
+    name: "Reflect Reviewer",
+    email: "reviewer@reflect.app",
+  });
+  setEntries([
+    {
+      _id: "1",
+      title: "Welcome to Reflect 🌿",
+      body: "This is a demo journal entry for review purposes.",
+      mood: "peaceful",
+      createdAt: new Date().toISOString(),
+    },
+  ]);
+  return;
+}
   
     Promise.all([getCurrentUser(), fetchEntries()])
     .then(([user]) => {
       setCurrentUser(user);
+      setIsLoggedIn(true);
     })
     .catch((err) => {
       const message = String(err || "");
@@ -107,14 +125,38 @@ if (!token) return;
 
   const handleLogin = ({ email, password }) => {
     login({ email, password })
-    .then(({ token}) => {
+    .then(({ token }) => {
       setToken(token);
       setIsLoggedIn(true);
-      closeModal();
+
+      if (token === DEMO_TOKEN) {
+        setCurrentUser({
+          name: "Reflect Reviewer",
+          email: "reviewer@reflect.app",
+        });
+        setEntries([
+          {
+            _id: "1",
+            title: "Welcome to Reflect 🌿",
+            body: "This is a demo journal entry for review purposes.",
+            mood: "peaceful",
+            createdAt: new Date().toISOString(),
+          },
+        ]);
+        closeModal();
+        return null;
+      }
+      
       return Promise.all([getCurrentUser(), fetchEntries()]);
     })
-    .then(([user]) => {
+    .then((result) => {
+      if (!result) return;
+      const [user] = result;
       setCurrentUser(user);
+      closeModal();
+    })
+    .catch(() => {
+
     });
   };
 

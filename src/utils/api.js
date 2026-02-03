@@ -125,5 +125,14 @@ export const updateEntry = (id, data) => {
 };
 
 export const getTodayQuote = () => {
+const token = getToken();
+
+if (token === DEMO_TOKEN) {
+    return Promise.resolve({
+        text: "Be still, and know that I am God.",
+        author: "Psalm 46:10",
+    });
+}
+
     return fetch(`${BASE_URL}/quote/today`).then(checkResponse);
 };
