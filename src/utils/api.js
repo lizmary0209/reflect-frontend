@@ -125,12 +125,12 @@ export const updateEntry = (id, data) => {
 };
 
 export const getTodayQuote = () => {
-const token = getToken();
+const token = localStorage.getItem("jwt");
 
 if (token === DEMO_TOKEN) {
     return Promise.resolve({
-        text: "Be still, and know that I am God.",
-        author: "Psalm 46:10",
+        q: "Be still, and know that I am God.",
+        a: "Psalm 46:10",
     });
 }
 
