@@ -44,6 +44,13 @@ http://localhost:5173
 
 ---
 
+## Test Credentials (for reviewers)
+
+Email: reviewer@reflect.app  
+Password: Reflect123!
+
+---
+
 ### Authentication Flow
 -JWT is stored in localStorage
 -Token is automatically attached to API requests
