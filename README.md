@@ -44,6 +44,13 @@ http://localhost:5173
 
 ---
 
+## Test Credentials (for reviewers)
+
+Email: reviewer@reflect.app  
+Password: Reflect123!
+
+---
+
 ### Authentication Flow
 -JWT is stored in localStorage
 -Token is automatically attached to API requests
@@ -61,6 +68,11 @@ The frontend communicates with the backend via REST API calls for:
 
 ### Frontend Demo Video
 https://drive.google.com/file/d/1JlC-p9ySAa8aapVgu3yQoe7SNLADsIqL/view?usp=drive_link
+
+---
+
+## Deployed Frontend
+https://tiny-donut-a6b715.netlify.app/
 
 ---
 

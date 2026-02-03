@@ -1,4 +1,8 @@
-const BASE_URL = "http://127.0.0.1:3001";
+const BASE_URL = "";
+
+const DEMO_EMAIL = "reviewer@reflect.app";
+const DEMO_PASSWORD = "Reflect123!";
+const DEMO_TOKEN = "demo-token";
 
 const checkResponse = async (res) => {
     const data = await res.json().catch(() => null);
@@ -49,20 +53,49 @@ export const register = ({ name, email, password }) => {
 };
 
 export const login = ({ email, password }) => {
+if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+    setToken(DEMO_TOKEN);
+    return Promise.resolve({ token: DEMO_TOKEN });
+}
+
     return fetch(`${BASE_URL}/signin`, {
-        method: "Post",
+        method: "POST",
         headers: getHeaders(false),
         body: JSON.stringify({ email, password }),
     }).then(checkResponse);
 };
 
 export const getCurrentUser = () => {
+const token = getToken();
+
+if (token === DEMO_TOKEN) {
+    return Promise.resolve({
+        name: "Reflect Reviewer",
+        email: DEMO_EMAIL,
+        avatar: "https://i.pravatar.cc/150?img=32",
+    });
+}
+
     return fetch(`${BASE_URL}/users/me`, {
         headers: getHeaders(true),
     }).then(checkResponse);
 };
 
 export const getEntries = () => {
+const token = getToken();
+
+if (token === DEMO_TOKEN) {
+    return Promise.resolve([
+        {
+            _id: "1",
+            title: "Welcome to Reflect 🌿",
+            body: "This is a demo journal entry for review purposes.",
+            mood: "peaceful",
+            createdAt: new Date().toISOString(),
+        },
+    ]);
+}
+
     return fetch(`${BASE_URL}/entries`, {
         headers: getHeaders(true),
     }).then(checkResponse);
@@ -92,5 +125,14 @@ export const updateEntry = (id, data) => {
 };
 
 export const getTodayQuote = () => {
+const token = localStorage.getItem("jwt");
+
+if (token === DEMO_TOKEN) {
+    return Promise.resolve({
+        q: "Be still, and know that I am God.",
+        a: "Psalm 46:10",
+    });
+}
+
     return fetch(`${BASE_URL}/quote/today`).then(checkResponse);
 };
